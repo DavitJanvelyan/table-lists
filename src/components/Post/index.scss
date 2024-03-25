@@ -1,0 +1,47 @@
+.post {
+
+  .post-search {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 24px;
+
+    .input {
+      width: 50%;
+    }
+
+  }
+
+  .create-button {
+    text-align: center;
+    margin-bottom: 24px;
+  }
+
+  .align-right {
+    text-align: right;
+    max-width: 250px;
+
+    &:first-child {
+      text-align: inherit;
+    }
+
+  }
+
+  .icons {
+    cursor: pointer;
+
+    &:last-child {
+      margin-left: 10px;
+    }
+
+  }
+
+  .delete-icon {
+    color: #F00;
+  }
+
+  .pagination {
+    margin-top: 20px;
+  }
+
+}
