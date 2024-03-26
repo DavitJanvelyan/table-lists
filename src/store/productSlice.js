@@ -50,7 +50,10 @@ const productSlice = createSlice({
   reducers: {
     addProduct(state, { payload }) {
       state.products = [payload, ...state.products];
-    }
+    },
+    addCategory(state, { payload }) {
+      state.categories = [payload, ...state.categories]
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -63,7 +66,7 @@ const productSlice = createSlice({
   }
 })
 
-const { addProduct } = productSlice.actions
+export const { addProduct, addCategory } = productSlice.actions
 
 export const allProductsSelector = state => state.products.products
 

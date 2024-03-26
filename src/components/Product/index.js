@@ -1,7 +1,13 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { allCategoriesSelector, allProductsSelector, fetchCategories, fetchProducts } from "store/productSlice";
+import {
+  addCategory,
+  allCategoriesSelector,
+  allProductsSelector,
+  fetchCategories,
+  fetchProducts
+} from "store/productSlice";
 import { PRODUCT_TABLE_HEAD } from "constants/Table";
 
 import DropDown from "components/DropDown";
@@ -57,6 +63,16 @@ function Product() {
   }, [products.length, categories.length]);
 
   useEffect(() => {
+    if (filteredProducts.length && categories.length) {
+      const newCategory = filteredProducts[0].category;
+      const isCategory = categories.every(category => category !== newCategory)
+      if (isCategory) {
+        dispatch(addCategory(newCategory))
+      }
+    }
+  }, [filteredProducts.length, categories.length])
+
+  useEffect(() => {
     if (filteredProducts) {
       if (setTimeoutRef.current) {
         clearTimeout(setTimeoutRef.current)
@@ -100,8 +116,6 @@ function Product() {
     })
     setFilteredProducts(sortedProducts);
   }
-
-  const comp = 'ArrowUpwardIcon';
 
   return (
     <div className="product">
