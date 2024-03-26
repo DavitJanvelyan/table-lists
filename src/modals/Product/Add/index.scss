@@ -1,0 +1,27 @@
+.add-product-modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  background: #FFF;
+  border: 2px solid #000;
+  box-shadow: 0 11px 15px -7px rgba(0,0,0,0.2), 0px 24px 38px 3px rgba(0,0,0,0.14), 0px 9px 46px 8px rgba(0,0,0,0.12);
+  padding: 16px;
+
+  .inputs {
+    margin-top: 20px;
+    width: 80%;
+
+    input {
+      height: 15px;
+    }
+
+  }
+
+  .add-product-button {
+    text-align: center;
+    margin-top: 15px;
+  }
+
+}

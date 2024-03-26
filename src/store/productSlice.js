@@ -24,11 +24,33 @@ export const fetchCategories = createAsyncThunk(
   }
 )
 
+export const addNewProduct = createAsyncThunk(
+  'products/addNewProduct',
+  async function(product, { dispatch }) {
+    try {
+      const response = await fetch('https://dummyjson.com/products/add', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(product)
+      })
+      const data = await response.json();
+      dispatch(addProduct(data));
+    } catch (error) {
+      console.log(error);
+    }
+  }
+)
+
 const productSlice = createSlice({
   name: 'products',
   initialState: {
     products: [],
     categories: [],
+  },
+  reducers: {
+    addProduct(state, { payload }) {
+      state.products = [payload, ...state.products];
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -40,6 +62,8 @@ const productSlice = createSlice({
       })
   }
 })
+
+const { addProduct } = productSlice.actions
 
 export const allProductsSelector = state => state.products.products
 

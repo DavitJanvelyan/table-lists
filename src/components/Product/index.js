@@ -7,6 +7,7 @@ import { PRODUCT_TABLE_HEAD } from "constants/Table";
 import DropDown from "components/DropDown";
 import Search from "components/Search";
 import Loader from "components/Loader";
+import AddProducts from "modals/Product/Add";
 
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
@@ -17,6 +18,8 @@ import TableBody from "@mui/material/TableBody";
 import TableContainer from "@mui/material/TableContainer";
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import AddSharpIcon from '@mui/icons-material/AddSharp';
+import Button from '@mui/material/Button';
 
 import "components/Product/index.scss"
 
@@ -33,6 +36,7 @@ function Product() {
   const [brands, setBrands] = useState([]);
   const [selectedBrand, setSelectedBrand] = useState('All')
   const [isLoader, setIsLoader] = useState(true);
+  const [isAddProductModalOpen, setIsAddProductModalOpen] = useState(false);
 
   useEffect(() => {
     dispatch(fetchProducts())
@@ -53,7 +57,7 @@ function Product() {
   }, [products.length, categories.length]);
 
   useEffect(() => {
-    if (filteredProducts.length) {
+    if (filteredProducts) {
       if (setTimeoutRef.current) {
         clearTimeout(setTimeoutRef.current)
       }
@@ -115,6 +119,9 @@ function Product() {
               <div className="product-drop-down-category">
                 <DropDown key={'Categories'} placeholder={'Categories'} items={categories} onChangeItem={(category) => setSelectedCategory(category)} />
               </div>
+              <div className="add-product-button">
+                <Button variant="contained" onClick={() => setIsAddProductModalOpen(true)} startIcon={<AddSharpIcon />}>Add</Button>
+              </div>
             </div>
           </div>
           <TableContainer component={Paper}>
@@ -155,6 +162,7 @@ function Product() {
               </TableBody>
             </Table>
           </TableContainer>
+          {isAddProductModalOpen ? <AddProducts isAddProductModalOpen={isAddProductModalOpen} onClose={() => setIsAddProductModalOpen(false)} /> : null}
         </>
       }
     </div>
