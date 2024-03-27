@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 
+import classNames from "classnames";
+
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 import "components/DropDown/index.scss"
@@ -35,25 +37,17 @@ function DropDown({ placeholder = '', items, onChangeItem }) {
     }
   }
 
-  function arrowStyle() {
-    return ['drop-down-arrow', isOpen ? 'drop-down-arrow-rotate' : ''].join(' ');
-  }
-
-  function selectedItemStyle(selected) {
-    return ['drop-down-container-items', selected === selectedOption ? 'drop-down-container-selected-item' : ''].join(' ');
-  }
-
   return (
     <div className="drop-down" ref={dropdownRef}>
-      <div className="drop-down-header" onClick={(event) => toggleDropdown(event)}>
+      <div className="drop-down-header" onClick={toggleDropdown}>
         <div>{selectedOption || placeholder}</div>
-        <ArrowDropDownIcon className={arrowStyle()} />
+        <ArrowDropDownIcon className={classNames('drop-down-arrow', {'drop-down-arrow-rotate': isOpen})} />
       </div>
       {isOpen &&
         <div className="drop-down-container">
-          <div className={selectedItemStyle('All')} onClick={() => handleOptionClick('All')}>All</div>
+          <div className={classNames('drop-down-container-items', {'drop-down-container-selected-item': 'All' === selectedOption})} onClick={() => handleOptionClick('All')}>All</div>
           {items.map((item) => (
-            <div className={selectedItemStyle(item)} key={item} onClick={() => handleOptionClick(item)}>{item}</div>
+            <div className={classNames('drop-down-container-items', {'drop-down-container-selected-item': item === selectedOption})} key={item} onClick={() => handleOptionClick(item)}>{item}</div>
           ))}
         </div>
       }
