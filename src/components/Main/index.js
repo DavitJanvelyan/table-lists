@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { TAB_LIST, TAB_PANEL } from "constants/Tabs";
 
+import DarkMode from "components/DarkMode";
+
 import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
@@ -27,6 +29,9 @@ function Main() {
         <>
           {TAB_PANEL.map(({ value, component }) => (
             <TabPanel value={value} key={value}>
+              <div className="mode">
+                <DarkMode />
+              </div>
               {component}
             </TabPanel>
           ))}

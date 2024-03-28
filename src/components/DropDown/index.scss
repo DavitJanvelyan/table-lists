@@ -28,7 +28,7 @@
     width: 100%;
     max-height: 600px;
     overflow-y: auto;
-    background: #FFFFFF;
+    background: var(--body_background);
     box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
     border-radius: 4px;
     position: absolute;

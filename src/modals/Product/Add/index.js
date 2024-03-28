@@ -48,11 +48,11 @@ function AddProducts({ isAddProductModalOpen, onClose }) {
           Add product
         </Typography>
         <Typography id="modal-modal-description" component="div" sx={{ textAlign: 'center'}}>
-          <TextField variant="outlined" className="inputs" placeholder="Title" label="Title" name="title" onChange={onChangeProduct} />
-          <TextField variant="outlined" className="inputs" placeholder="Brand" label="Brand" name="brand" onChange={onChangeProduct} />
-          <TextField variant="outlined" className="inputs" placeholder="Category" label="Category" name="category" onChange={onChangeProduct} />
-          <TextField variant="outlined" className="inputs" placeholder="Rating" label="Rating" name="rating" onChange={onChangeProduct} />
-          <TextField variant="outlined" className="inputs" placeholder="Price" label="Price" name="price" onChange={onChangeProduct} />
+          <TextField variant="outlined" className="inputs" placeholder="Title" label="Title" name="title" value={addProduct.title} onChange={onChangeProduct} />
+          <TextField variant="outlined" className="inputs" placeholder="Brand" label="Brand" name="brand" value={addProduct.brand} onChange={onChangeProduct} />
+          <TextField variant="outlined" className="inputs" placeholder="Category" label="Category" name="category" value={addProduct.category} onChange={onChangeProduct} />
+          <TextField variant="outlined" className="inputs" placeholder="Rating" label="Rating" name="rating" value={addProduct.rating} onChange={onChangeProduct} />
+          <TextField variant="outlined" className="inputs" placeholder="Price" label="Price" name="price" value={addProduct.price} onChange={onChangeProduct} />
         </Typography>
         <div className="add-product-button">
           <Button variant="contained" onClick={createProduct}>Add</Button>
