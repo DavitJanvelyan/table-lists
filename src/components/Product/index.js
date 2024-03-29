@@ -8,7 +8,10 @@ import {
   fetchCategories,
   fetchProducts
 } from "store/productSlice";
+
 import { PRODUCT_TABLE_HEAD } from "constants/Table";
+
+import { useSearchParams } from 'react-router-dom';
 
 import DropDown from "components/DropDown";
 import Search from "components/Search";
@@ -36,8 +39,9 @@ function Product() {
   const categories = useSelector(allCategoriesSelector)
   const setTimeoutRef = useRef(null)
 
+  const [searchParams, setSearchParams] = useSearchParams({});
   const [filteredProducts,setFilteredProducts] = useState([])
-  const [productSearchText, setProductSearchText] = useState('')
+  const [productSearchText, setProductSearchText] = useState( searchParams.get('searchText') || '')
   const [selectedCategory, setSelectedCategory] = useState('All')
   const [brands, setBrands] = useState([]);
   const [selectedBrand, setSelectedBrand] = useState('All')
@@ -81,7 +85,7 @@ function Product() {
         applyFilters();
       }, 400)
     }
-  }, [productSearchText, selectedBrand, selectedCategory, filteredProducts.length]);
+  }, [productSearchText,  selectedBrand, selectedCategory, filteredProducts.length]);
 
   function storeBrands() {
     const allBrands = products.map(product => product.brand);
@@ -91,6 +95,12 @@ function Product() {
 
   function applyFilters() {
     let filtered = products;
+
+    if (productSearchText) {
+      setSearchParams({searchText: productSearchText})
+    } else {
+      setSearchParams({})
+    }
 
     if (productSearchText.trim() !== '') {
       filtered = filtered.filter(product =>
@@ -138,12 +148,12 @@ function Product() {
               </div>
             </div>
           </div>
-          <TableContainer component={Paper}>
+          <TableContainer component={Paper} className="table">
             <Table sx={{minWidth: 650}} aria-label="simple table">
               <TableHead>
                 <TableRow>
                   {PRODUCT_TABLE_HEAD.map(({ name, isContainsSortIcons }) => (
-                    <TableCell key={name}>
+                    <TableCell key={name} className="table-cell">
                       <div className="table-head">
                         {name}
                         {isContainsSortIcons &&
@@ -160,16 +170,16 @@ function Product() {
               <TableBody>
                 {filteredProducts?.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={PRODUCT_TABLE_HEAD.length} align="center">No Products</TableCell>
+                    <TableCell colSpan={PRODUCT_TABLE_HEAD.length} align="center" className="table-cell">No Products</TableCell>
                   </TableRow>
                 ) : (
                   filteredProducts?.map(({ id, title, brand, category, rating, price }) => (
                     <TableRow key={id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                      <TableCell>{title}</TableCell>
-                      <TableCell>{brand}</TableCell>
-                      <TableCell>{category}</TableCell>
-                      <TableCell>{rating}</TableCell>
-                      <TableCell>{price}</TableCell>
+                      <TableCell className="table-cell">{title}</TableCell>
+                      <TableCell className="table-cell">{brand}</TableCell>
+                      <TableCell className="table-cell">{category}</TableCell>
+                      <TableCell className="table-cell">{rating}</TableCell>
+                      <TableCell className="table-cell">{price}</TableCell>
                     </TableRow>
                   ))
                 )}

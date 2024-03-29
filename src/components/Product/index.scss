@@ -30,8 +30,17 @@
 
   }
 
+  .table {
+    background: var(--body_background);
+  }
+
+  .table-cell {
+    color: var(--body_color);
+  }
+
   .table-head {
     display: flex;
+    align-items: center;
   }
 
   .product-price-sort {

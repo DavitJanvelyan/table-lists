@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { TAB_LIST, TAB_PANEL } from "constants/Tabs";
 
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
+
 import DarkMode from "components/DarkMode";
 
 import Tab from '@mui/material/Tab';
@@ -12,27 +14,29 @@ import "components/Main/index.scss"
 
 function Main() {
 
-  const defaultValue = 'products'
+  const navigate = useNavigate()
+  const { pathname } = useLocation();
+  const defaultValue = pathname.substring(1)
 
-  const [value, setValue] = useState(defaultValue);
+  const [value, setValue] = useState(defaultValue || '');
 
   return (
     <div className="main">
       <TabContext value={value}>
         <div className="tab-content">
           <TabList onChange={(_, newValue) => setValue(newValue)}>
-            {TAB_LIST.map((tab) => (
-              <Tab label={tab} value={tab} key={tab} />
+            {TAB_LIST.map(({ label, value }) => (
+              <Tab label={label} value={value} key={value} sx={{color: 'var(--body_color)'}} onClick={() => navigate(value)} />
             ))}
           </TabList>
         </div>
         <>
-          {TAB_PANEL.map(({ value, component }) => (
-            <TabPanel value={value} key={value}>
+          {TAB_PANEL.map((panel) => (
+            <TabPanel value={panel} key={panel}>
               <div className="mode">
                 <DarkMode />
               </div>
-              {component}
+              <Outlet />
             </TabPanel>
           ))}
         </>

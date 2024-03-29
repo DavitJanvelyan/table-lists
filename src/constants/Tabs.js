@@ -3,23 +3,23 @@ import Post from "components/Post";
 import Tree from "components/Tree";
 import Product from "components/Product";
 
-export const TAB_LIST = ['users', 'posts', 'products', 'tree'];
-
-export const TAB_PANEL = [
+export const TAB_LIST = [
   {
-    value: 'users',
-    component: <User />
+    label: 'users',
+    value: ''
   },
   {
+    label: 'posts',
     value: 'posts',
-    component: <Post />
   },
   {
-    value: 'products',
-    component: <Product />
+    label: 'products',
+    value: 'products'
   },
   {
-    value: 'tree',
-    component: <Tree />
+    label: 'tree',
+    value: 'tree'
   }
 ];
+
+export const TAB_PANEL = ['', 'posts', 'products', 'tree',];

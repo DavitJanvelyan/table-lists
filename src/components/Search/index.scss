@@ -3,6 +3,17 @@
 
   .search-input {
     width: 100%;
+
+    input {
+      border: 1px solid var(--body_color);
+      border-radius: 4px;
+
+      &::placeholder {
+        color: var(--body_color);
+      }
+
+    }
+
   }
 
 }

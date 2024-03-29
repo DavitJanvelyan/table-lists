@@ -14,7 +14,7 @@ import Button from '@mui/material/Button';
 import CreateOrEditUser from "modals/User/CreateOrEdit";
 import Search from "components/Search";
 
-import { USER_TABLE_HEAD } from "constants/Table";
+import {POST_TABLE_HEAD, USER_TABLE_HEAD} from "constants/Table";
 import { allUsersSelector, deleteUser, fetchUsers } from "store/userSlice";
 
 import "components/User/index.scss"
@@ -61,29 +61,34 @@ function User() {
       <div className="create-button">
         <Button variant="contained" onClick={() => toggleUserEditModal(true)}>Create</Button>
       </div>
-      <TableContainer component={Paper}>
+      <TableContainer component={Paper} className="table">
         <Table sx={{minWidth: 650}} aria-label="simple table">
           <TableHead>
             <TableRow>
               {USER_TABLE_HEAD.map((item) => (
-                <TableCell className="align-right" key={item}>{item}</TableCell>
+                <TableCell className="align-right table-cell" key={item}>{item}</TableCell>
               ))}
             </TableRow>
           </TableHead>
           <TableBody>
-            {users?.filter(user => user.name.toUpperCase().includes(filteredUsersValue.toUpperCase().trim())).map(({ id, ...userData }) => (
+            {users?.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={USER_TABLE_HEAD.length} align="center" className="table-cell">No Users</TableCell>
+                </TableRow>
+              ) :
+              users?.filter(user => user.name.toUpperCase().includes(filteredUsersValue.toUpperCase().trim())).map(({ id, ...userData }) => (
               <TableRow
                 key={id}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
                 {Object.keys(userData).map((key) => (
-                  <TableCell key={key} className="align-right">
+                  <TableCell key={key} className="align-right table-cell">
                     {typeof userData[key] === 'object' ?
                       (key === 'address' ? `${userData[key].city} ${userData[key].street}` : userData[key].name)
                       : userData[key]}
                   </TableCell>
                 ))}
-                <TableCell className="align-right">
+                <TableCell className="align-right table-cell">
                   <EditIcon className="icons" onClick={() => toggleUserEditModal(true, { isUpdate: true, id })} />
                   <DeleteIcon className="icons delete-icon" onClick={() => dispatch(deleteUser(id))} />
                 </TableCell>

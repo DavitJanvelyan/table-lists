@@ -17,6 +17,14 @@
     margin-bottom: 24px;
   }
 
+  .table {
+    background: var(--body_background);
+  }
+
+  .table-cell {
+    color: var(--body_color);
+  }
+
   .align-right {
     text-align: right;
 

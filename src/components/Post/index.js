@@ -16,7 +16,7 @@ import Search from "components/Search";
 import CreateOrEditPost from "modals/Post/CreateOrEdit";
 import PaginationPage from "components/Pagination";
 
-import { POST_TABLE_HEAD } from "constants/Table";
+import {POST_TABLE_HEAD, PRODUCT_TABLE_HEAD} from "constants/Table";
 import { allPostsSelector, countSelector, deletePost, fetchLimitedPosts, fetchPosts } from "store/postSlice";
 
 import "components/Post/index.scss"
@@ -85,27 +85,32 @@ function Post() {
       <div className="create-button">
         <Button variant="contained" onClick={() => togglePostEditModal(true)}>Create</Button>
       </div>
-      <TableContainer component={Paper}>
+      <TableContainer component={Paper} className="table">
         <Table sx={{minWidth: 650}} aria-label="simple table">
           <TableHead>
             <TableRow>
               {POST_TABLE_HEAD.map((item) => (
-                <TableCell className="align-right" key={item}>{item}</TableCell>
+                <TableCell className="align-right table-cell" key={item}>{item}</TableCell>
               ))}
             </TableRow>
           </TableHead>
           <TableBody>
-            {posts?.filter(post => post.title.toUpperCase().includes(filteredPostsValue.toUpperCase().trim())).map(({id, ...postData}) => (
+            {posts?.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={POST_TABLE_HEAD.length} align="center" className="table-cell">No Posts</TableCell>
+                </TableRow>
+              ) :
+              posts?.filter(post => post.title.toUpperCase().includes(filteredPostsValue.toUpperCase().trim())).map(({id, ...postData}) => (
               <TableRow
                 key={id}
                 sx={{'&:last-child td, &:last-child th': {border: 0}}}
               >
                 {Object.keys(postData).map((key) => (
-                  <TableCell key={key} className="align-right">
+                  <TableCell key={key} className="align-right table-cell">
                     {postData[key]}
                   </TableCell>
                 ))}
-                <TableCell className="align-right">
+                <TableCell className="align-right table-cell">
                   <EditIcon className="icons" onClick={() => togglePostEditModal(true, { isUpdate: true, id })} />
                   <DeleteIcon className="icons delete-icon" onClick={() => dispatch(deletePost(id))} />
                 </TableCell>
