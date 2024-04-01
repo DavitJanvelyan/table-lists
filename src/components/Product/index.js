@@ -39,12 +39,12 @@ function Product() {
   const categories = useSelector(allCategoriesSelector)
   const setTimeoutRef = useRef(null)
 
-  const [searchParams, setSearchParams] = useSearchParams({});
+  const [filterParams, setFilterParams] = useSearchParams();
   const [filteredProducts,setFilteredProducts] = useState([])
-  const [productSearchText, setProductSearchText] = useState( searchParams.get('searchText') || '')
-  const [selectedCategory, setSelectedCategory] = useState('All')
+  const [productSearchText, setProductSearchText] = useState( filterParams.get('searchText') || '')
+  const [selectedCategory, setSelectedCategory] = useState(filterParams.get('selectedCategory') || 'All')
   const [brands, setBrands] = useState([]);
-  const [selectedBrand, setSelectedBrand] = useState('All')
+  const [selectedBrand, setSelectedBrand] = useState(filterParams.get('selectedBrand') || 'All')
   const [isLoader, setIsLoader] = useState(true);
   const [isAddProductModalOpen, setIsAddProductModalOpen] = useState(false);
 
@@ -54,38 +54,25 @@ function Product() {
   }, []);
 
   useEffect(() => {
-    if (products.length) {
-      setFilteredProducts(products);
-      storeBrands();
-    }
-  }, [products.length]);
-
-  useEffect(() => {
-    if (products.length && categories.length) {
-      setIsLoader(false)
-    }
-  }, [products.length, categories.length]);
-
-  useEffect(() => {
     if (filteredProducts.length && categories.length) {
-      const newCategory = filteredProducts[0].category;
+      const newCategory = filteredProducts[0]?.category;
       const isCategory = categories.every(category => category !== newCategory)
       if (isCategory) {
         dispatch(addCategory(newCategory))
       }
+      storeBrands();
+      setIsLoader(false)
     }
   }, [filteredProducts.length, categories.length])
 
   useEffect(() => {
-    if (filteredProducts) {
-      if (setTimeoutRef.current) {
-        clearTimeout(setTimeoutRef.current)
-      }
-      setTimeoutRef.current = setTimeout(() => {
-        applyFilters();
-      }, 400)
+    if (setTimeoutRef.current) {
+      clearTimeout(setTimeoutRef.current)
     }
-  }, [productSearchText,  selectedBrand, selectedCategory, filteredProducts.length]);
+    setTimeoutRef.current = setTimeout(() => {
+      applyFilters();
+    }, 400)
+  }, [productSearchText, selectedBrand, selectedCategory, products.length]);
 
   function storeBrands() {
     const allBrands = products.map(product => product.brand);
@@ -97,9 +84,15 @@ function Product() {
     let filtered = products;
 
     if (productSearchText) {
-      setSearchParams({searchText: productSearchText})
+      setFilterParams(filterParams => {
+        filterParams.set('searchText', productSearchText)
+        return filterParams;
+      })
     } else {
-      setSearchParams({})
+      setFilterParams(filterParams => {
+        filterParams.delete('searchText')
+        return filterParams
+      })
     }
 
     if (productSearchText.trim() !== '') {
@@ -110,10 +103,30 @@ function Product() {
 
     if (selectedBrand !== 'All') {
       filtered = filtered.filter(product => product.brand === selectedBrand)
+
+      setFilterParams(filterParams => {
+        filterParams.set('selectedBrand', selectedBrand)
+        return filterParams;
+      })
+    } else {
+      setFilterParams(filterParams => {
+        filterParams.delete('selectedBrand')
+        return filterParams;
+      })
     }
 
     if (selectedCategory !== 'All') {
       filtered = filtered.filter(product => product.category === selectedCategory);
+
+      setFilterParams(filterParams => {
+        filterParams.set('selectedCategory', selectedCategory)
+        return filterParams;
+      })
+    } else {
+      setFilterParams(filterParams => {
+        filterParams.delete('selectedCategory')
+        return filterParams;
+      })
     }
 
     setFilteredProducts(filtered);
@@ -138,10 +151,10 @@ function Product() {
             </div>
             <div className="product-drop-down">
               <div className="product-drop-down-brand">
-                <DropDown key={'Brands'} placeholder={'Brands'} items={brands} onChangeItem={(brand) => setSelectedBrand(brand)} />
+                <DropDown key={'Brands'} placeholder={'Brands'} items={brands} defaultSelected={selectedBrand} onChangeItem={(brand) => setSelectedBrand(brand)} />
               </div>
               <div className="product-drop-down-category">
-                <DropDown key={'Categories'} placeholder={'Categories'} items={categories} onChangeItem={(category) => setSelectedCategory(category)} />
+                <DropDown key={'Categories'} placeholder={'Categories'} items={categories} defaultSelected={selectedCategory} onChangeItem={(category) => setSelectedCategory(category)} />
               </div>
               <div className="add-product-button">
                 <Button variant="contained" onClick={() => setIsAddProductModalOpen(true)} startIcon={<AddSharpIcon />}>Add</Button>

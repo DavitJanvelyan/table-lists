@@ -6,12 +6,12 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 import "components/DropDown/index.scss"
 
-function DropDown({ placeholder = '', items, onChangeItem }) {
+function DropDown({ placeholder = '', items = [], defaultSelected = '', onChangeItem }) {
 
   const dropdownRef = useRef(null)
 
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState('');
+  const [selectedOption, setSelectedOption] = useState(defaultSelected || '');
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -46,7 +46,7 @@ function DropDown({ placeholder = '', items, onChangeItem }) {
       {isOpen &&
         <div className="drop-down-container">
           <div className={classNames('drop-down-container-items', {'drop-down-container-selected-item': 'All' === selectedOption})} onClick={() => handleOptionClick('All')}>All</div>
-          {items.map((item) => (
+          {items?.map((item) => (
             <div className={classNames('drop-down-container-items', {'drop-down-container-selected-item': item === selectedOption})} key={item} onClick={() => handleOptionClick(item)}>{item}</div>
           ))}
         </div>
