@@ -16,7 +16,7 @@ import Search from "components/Search";
 import CreateOrEditPost from "modals/Post/CreateOrEdit";
 import PaginationPage from "components/Pagination";
 
-import {POST_TABLE_HEAD, PRODUCT_TABLE_HEAD} from "constants/Table";
+import { POST_TABLE_HEAD } from "constants/Table";
 import { allPostsSelector, countSelector, deletePost, fetchLimitedPosts, fetchPosts } from "store/postSlice";
 
 import "components/Post/index.scss"

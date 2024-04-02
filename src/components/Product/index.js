@@ -83,7 +83,9 @@ function Product() {
   function applyFilters() {
     let filtered = products;
 
-    if (productSearchText) {
+    if (productSearchText.trim() !== '') {
+      filtered = filtered.filter(product => product.title.toLowerCase().includes(productSearchText.toLowerCase().trim()));
+
       setFilterParams(filterParams => {
         filterParams.set('searchText', productSearchText)
         return filterParams;
@@ -93,12 +95,6 @@ function Product() {
         filterParams.delete('searchText')
         return filterParams
       })
-    }
-
-    if (productSearchText.trim() !== '') {
-      filtered = filtered.filter(product =>
-        product.title.toLowerCase().includes(productSearchText.toLowerCase().trim())
-      );
     }
 
     if (selectedBrand !== 'All') {
