@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { TAB_LIST, TAB_PANEL } from "constants/Tabs";
 
-import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
 import DarkMode from "components/DarkMode";
 
