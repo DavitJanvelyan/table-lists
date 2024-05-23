@@ -45,3 +45,37 @@ function DarkMode() {
 }
 
 export default DarkMode;
+
+// import LightModeIcon from '@mui/icons-material/LightMode';
+// import DarkModeIcon from '@mui/icons-material/DarkMode';
+//
+// import "components/DarkMode/index.scss"
+//
+// function DarkMode() {
+//   const selectedTheme = localStorage.selectedTheme;
+//
+//   const handleThemeChange = (e) => {
+//     const mode = e.target.checked ? 'dark' : 'light';
+//
+//     document.querySelector("body").setAttribute('data-theme', mode)
+//     localStorage.setItem('selectedTheme', mode)
+//   }
+//
+//   return (
+//     <div className='dark_mode'>
+//       <input
+//         className='dark_mode_input'
+//         type='checkbox'
+//         id='darkmode-toggle'
+//         onChange={handleThemeChange}
+//         defaultChecked={selectedTheme === "dark"}
+//       />
+//       <label className='dark_mode_label' htmlFor='darkmode-toggle'>
+//         <LightModeIcon fontSize="medium" style={{color: 'yellow', paddingLeft: '3px'}} />
+//         <DarkModeIcon fontSize="medium" style={{color: 'white', paddingLeft: '40px'}} />
+//       </label>
+//     </div>
+//   )
+// }
+//
+// export default DarkMode;
